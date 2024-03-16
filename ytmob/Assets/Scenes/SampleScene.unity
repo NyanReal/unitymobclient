@@ -811,6 +811,8 @@ MonoBehaviour:
   myAvatar: {fileID: 193885774}
   destPoint: {fileID: 2040341827}
   boxBlue: {fileID: -3407311341692211308, guid: d5d8d753a6c9f9449811434d82af1528, type: 3}
+  boxGhost: {fileID: -3407311341692211308, guid: e2058292e6807cd4dab6b62f7a33bdc7, type: 3}
+  myid: -1
 --- !u!114 &1165695732
 MonoBehaviour:
   m_ObjectHideFlags: 0
