@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Net;
 using FreeNet;
+using Protocol;
 
-using GameServer;
+
+//using GameServer;
 using UnityEngine;
 
 namespace CSampleClient
@@ -38,12 +40,19 @@ namespace CSampleClient
 
 		public void SendPos(Vector3 vpos)
 		{
-            CPacket msg = CPacket.create((short)PROTOCOL.MOVE_REQ);
-            msg.push(vpos.x);
-            msg.push(vpos.y);
-            msg.push(vpos.z);
-            msg.push(3.3f); // r
-            game_servers[0].send(msg);
+            //CPacket msg = CPacket.create((short)PROTOCOL.MOVE_REQ);
+            //msg.push(vpos.x);
+            //msg.push(vpos.y);
+            //msg.push(vpos.z);
+            //msg.push(3.3f); // r
+            //game_servers[0].send(msg);
+            CSMoveReq req = new CSMoveReq();
+            req.X = vpos.x;
+            req.Y = vpos.y;
+            req.Z = vpos.z;
+            req.Rotation = 3.3f;
+            game_servers[0].send(req.ToPacket());   
+
         }
 
 		/// <summary>
