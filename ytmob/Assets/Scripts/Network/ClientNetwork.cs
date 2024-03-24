@@ -80,6 +80,9 @@ public partial class ClientNetwork : MonoBehaviour
         Debug.Log("server info " + dropdown.value );
         mLastServerKey = mServerList.Keys.ToList().ElementAt(dropdown.value);
 
+        dropdown.gameObject.SetActive(false);
+        BtnConnect.gameObject.SetActive(false);
+
         var connectEndPoint = mServerList[mLastServerKey];
 
         Debug.Log("endpoint info " + connectEndPoint.ToString());
