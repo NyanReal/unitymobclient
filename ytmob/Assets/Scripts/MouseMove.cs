@@ -1,4 +1,5 @@
-using FreeNet;
+//using FreeNet;
+using Bass.Net.Client;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -17,8 +18,14 @@ public class MouseMove : MonoBehaviour
 
     public int st = 0;
 
+#if USE_FREENET_BASE_CLIENT
     public TCPTestClient testClient;
     public FRNClient testClient2;
+#endif
+
+    public ClientNetwork ClientNetworkSocket;
+
+
 
     public TextMeshProUGUI nextPos;
 
@@ -85,20 +92,21 @@ public class MouseMove : MonoBehaviour
             float y = msg.y;
             float z = msg.z;
             float r = msg.r;
-            Cast(userid, x, y, z, r);   
+            Cast(userid, x, y, z, r);
         }
 
         if (Input.GetMouseButtonDown(0))
         {
             //Debug.Log("LEFT");
-            
 
-            var ray = Camera.main.ScreenPointToRay( Input.mousePosition );
 
-            if(Physics.Raycast( ray, out var hitInfo ))
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out var hitInfo))
             {
                 destination = hitInfo.point;
-                testClient2.programEntry.SendPos(destination);
+                ClientNetworkSocket?.SendPos(destination);
+
 
                 Debug.Log($"{Input.mousePosition.ToString()} {destination.ToString()}");
 
@@ -123,7 +131,7 @@ public class MouseMove : MonoBehaviour
             myAvatar.Translate(dir * speed * Time.deltaTime, Space.World);
             myAvatar.LookAt(destination, Vector3.up);
         }
-        else if(diff > float.Epsilon)
+        else if (diff > float.Epsilon)
         {
             st = 2;
             myAvatar.position = destination;
@@ -136,9 +144,9 @@ public class MouseMove : MonoBehaviour
     {
         Gizmos.color = Color.gray;
 
-        if(st == 1) Gizmos.color = Color.yellow;
-        if(st == 2) Gizmos.color = Color.red;
-        if(st > 0)
+        if (st == 1) Gizmos.color = Color.yellow;
+        if (st == 2) Gizmos.color = Color.red;
+        if (st > 0)
         {
             Gizmos.DrawWireSphere(transform.position, 1.5f);
             Gizmos.color = Color.red;
@@ -150,7 +158,7 @@ public class MouseMove : MonoBehaviour
 public class MoveData
 {
     public short userid;
-    public float x, y, z, r; 
+    public float x, y, z, r;
 }
 
 

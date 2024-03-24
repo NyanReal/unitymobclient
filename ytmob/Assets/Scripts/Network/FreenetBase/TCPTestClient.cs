@@ -1,4 +1,6 @@
 
+#if USE_FREENET_BASE_CLIENT
+
 // This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. 
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/ 
 // or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
@@ -85,13 +87,13 @@ public class TCPTestClient : MonoBehaviour
                             continue;
                         }
 
-                        Debug.Log("read "+ bytes.Length);
+                        Debug.Log("read " + bytes.Length);
                         length = stream.Read(bytes, 0, bytes.Length);
 
                         if (length == 0)
                         {
                             Debug.Log("zero len");
-                            
+
                             continue;
                             //break;
                         }
@@ -103,17 +105,17 @@ public class TCPTestClient : MonoBehaviour
 
                         string serverMessage = "BYTE";
 
-                        foreach(byte b in incommingData)
+                        foreach (byte b in incommingData)
                         {
-                            serverMessage +=  " " + b.ToString("X");
+                            serverMessage += " " + b.ToString("X");
                         }
 
-                        if(poslist.Count > 0)
+                        if (poslist.Count > 0)
                         {
-                            if(poslist.TryDequeue(out var vDest))
+                            if (poslist.TryDequeue(out var vDest))
                             {
                                 //SendDestPosInternal(vDest);
-                            }                            
+                            }
                         }
 
                         Debug.Log("server message received as: " + serverMessage);
@@ -172,3 +174,5 @@ public class TCPTestClient : MonoBehaviour
         }
     }
 }
+
+#endif

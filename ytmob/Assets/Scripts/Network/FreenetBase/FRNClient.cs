@@ -1,4 +1,6 @@
-using CSampleClient;
+#if USE_FREENET_BASE_CLIENT
+
+//using CSampleClient;
 using System;
 using System.Net;
 using TMPro;
@@ -22,9 +24,9 @@ public class FRNClient : MonoBehaviour
         var verurl = $"https://nyanreal.github.io/ytmob/versions/{Application.version}.txt";
         var storeurl = $"https://nyanreal.github.io/ytmob/store.txt";
 
-        Debug.Log("ver : "+ verurl);
+        Debug.Log("ver : " + verurl);
 
-        string verinfo = string.Empty;        
+        string verinfo = string.Empty;
         try
         {
             verinfo = wc.DownloadString(verurl);
@@ -34,7 +36,7 @@ public class FRNClient : MonoBehaviour
             netError.text = ex.Message;
             return;
         }
-        
+
 
         if (verinfo == string.Empty)
         {
@@ -75,12 +77,12 @@ public class FRNClient : MonoBehaviour
 
         foreach (var line in lines)
         {
-            var cols =  line.Split(",", StringSplitOptions.RemoveEmptyEntries);
-            if(cols.Length == 2)
+            var cols = line.Split(",", StringSplitOptions.RemoveEmptyEntries);
+            if (cols.Length == 2)
             {
                 yturl = cols[1];
                 btnLive.gameObject.SetActive(true);
-                Debug.Log("yturl = " +  yturl);             
+                Debug.Log("yturl = " + yturl);
 
                 var ipport = cols[0].Split(":", StringSplitOptions.RemoveEmptyEntries);
                 if (ipport.Length == 2)
@@ -119,6 +121,8 @@ public class FRNClient : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
+
+#endif

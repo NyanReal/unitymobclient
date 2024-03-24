@@ -807,8 +807,7 @@ MonoBehaviour:
   speed: 10
   minDist: 0.016666668
   st: 0
-  testClient: {fileID: 1451164142}
-  testClient2: {fileID: 1451164144}
+  ClientNetworkSocket: {fileID: 1451164144}
   nextPos: {fileID: 2109225210}
   myAvatar: {fileID: 193885774}
   destPoint: {fileID: 2040341827}
@@ -988,7 +987,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1451164143}
-  - component: {fileID: 1451164142}
   - component: {fileID: 1451164144}
   m_Layer: 0
   m_Name: TCP
@@ -997,18 +995,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1451164142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451164141}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03b346213a04c7149b618a753c057df0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1451164143
 Transform:
   m_ObjectHideFlags: 0
@@ -1033,11 +1019,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1451164141}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e00468e2cf3e6f4e9d2428d328e22ee, type: 3}
+  m_Script: {fileID: 11500000, guid: 525d74eb3ffcc6f429fea902e8ecd897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btnLive: {fileID: 1944784168}
-  netError: {fileID: 2128540491}
+  BtnLive: {fileID: 1944784168}
+  NetworkError: {fileID: 2128540491}
 --- !u!1 &1944784166
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,7 +1107,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1451164144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FRNClient, Assembly-CSharp
         m_MethodName: OpenUrl
         m_Mode: 1
