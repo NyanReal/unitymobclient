@@ -27,6 +27,8 @@ public class MouseMove : MonoBehaviour
 
     public short myid = -1;
 
+    public bool EnableInput = false;
+
     static public MouseMove inst;
 
     Dictionary<short, Mob> mapChar = new Dictionary<short, Mob>();
@@ -106,7 +108,7 @@ public class MouseMove : MonoBehaviour
         _MoveDataProcess();
         _RemoveClientsProcess();
 
-        if (Input.GetMouseButtonDown(0))
+        if (EnableInput && Input.GetMouseButtonDown(0))
         {
             //Debug.Log("LEFT");
 

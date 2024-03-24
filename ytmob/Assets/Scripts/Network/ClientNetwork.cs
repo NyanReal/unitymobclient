@@ -2,6 +2,7 @@
 using B3.Network;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using TMPro;
 using UnityEngine;
@@ -11,6 +12,11 @@ public partial class ClientNetwork : MonoBehaviour
 {
     [SerializeField]
     public Button BtnLive;
+    public Button BtnConnect;
+
+    public TMP_Dropdown dropdown;
+
+    public MouseMove mouse;
 
     [SerializeField]
     public TextMeshProUGUI NetworkError;
@@ -41,10 +47,6 @@ public partial class ClientNetwork : MonoBehaviour
 
         if (mServerList.Count == 0)
             return; // no Server List;
-
-        var connectEndPoint = mServerList[mLastServerKey];
-
-        B3Network.Instance.Connect(connectEndPoint.Address.ToString(), connectEndPoint.Port);
     }
 
 
@@ -73,6 +75,19 @@ public partial class ClientNetwork : MonoBehaviour
     }
 
 
+    public void OnClickConnect()
+    {
+        Debug.Log("server info " + dropdown.value );
+        mLastServerKey = mServerList.Keys.ToList().ElementAt(dropdown.value);
+
+        var connectEndPoint = mServerList[mLastServerKey];
+
+        Debug.Log("endpoint info " + connectEndPoint.ToString());
+
+        B3Network.Instance.Connect(connectEndPoint.Address.ToString(), connectEndPoint.Port);
+        mouse.EnableInput = true;
+    }
+
 
     /// <summary>
     /// 서버 목록 URL로부터 서버 목록을 얻어옵니다.
@@ -80,6 +95,10 @@ public partial class ClientNetwork : MonoBehaviour
     /// <returns>작업 성공 여부</returns>
     private bool _GetServerList()
     {
+        dropdown.ClearOptions();
+
+        List<string> listString = new List<string>();
+
         const string serverListUrl = "https://nyanreal.github.io/ytmob/serverlist.txt";
 
         using (WebClient wc = new WebClient())
@@ -101,14 +120,17 @@ public partial class ClientNetwork : MonoBehaviour
                         continue;   // 이미 동일 주소 존재
 
                     var cols = line.Split(",", StringSplitOptions.RemoveEmptyEntries);
-                    if (cols.Length == 2)
+                    if (cols.Length == 3)
                     {
-                        yturl = cols[1];
+                        var servername = cols[0];
+                        yturl = cols[2];
                         BtnLive?.gameObject?.SetActive(true);
-
                         Debug.Log("yturl = " + yturl);
+                        Debug.Log("servername = " + servername);
 
-                        var ipport = cols[0].Split(":", StringSplitOptions.RemoveEmptyEntries);
+                        listString.Add(servername);
+
+                        var ipport = cols[1].Split(":", StringSplitOptions.RemoveEmptyEntries);
                         if (ipport.Length == 2)
                         {
                             domain = ipport[0];
@@ -136,10 +158,12 @@ public partial class ClientNetwork : MonoBehaviour
             }
         }
 
-        #if DEBUG_SERVER
+#if DEBUG_SERVER
         mLastServerKey = "127.0.0.1";
         mServerList.Add("127.0.0.1", new IPEndPoint(IPAddress.Parse("127.0.0.1"), CommonData.SERVER_PORT));
-        #endif
+#endif
+
+        dropdown.AddOptions(listString);
 
         return true;
     }
