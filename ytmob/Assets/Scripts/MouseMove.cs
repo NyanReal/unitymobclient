@@ -56,6 +56,9 @@ public class MouseMove : MonoBehaviour
 
     public void Cast(short userid, float x, float y, float z, float r)
     {
+        if (userid == myid)
+            return; // 내 정보는 추가할 필요 없음
+
         Debug.Log($"Cast222 {userid} {x} {y} ");
 
         if (!mapChar.ContainsKey(userid))
