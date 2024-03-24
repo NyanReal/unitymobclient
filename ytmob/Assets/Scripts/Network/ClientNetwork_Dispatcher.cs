@@ -54,6 +54,7 @@ public partial class ClientNetwork
 
     private bool _OnSCLeaveNotify(SCLeaveNotify msg)
     {
+        MouseMove.inst.LeaveUser(msg.UserID);
         return false;
     }
 

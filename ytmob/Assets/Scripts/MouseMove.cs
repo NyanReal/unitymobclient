@@ -1,12 +1,7 @@
-//using FreeNet;
-using Bass.Net.Client;
-using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MouseMove : MonoBehaviour
 {
@@ -17,11 +12,6 @@ public class MouseMove : MonoBehaviour
     public float minDist = 1 / 60.0f;
 
     public int st = 0;
-
-#if USE_FREENET_BASE_CLIENT
-    public TCPTestClient testClient;
-    public FRNClient testClient2;
-#endif
 
     public ClientNetwork ClientNetworkSocket;
 
@@ -42,6 +32,7 @@ public class MouseMove : MonoBehaviour
     Dictionary<short, Mob> mapChar = new Dictionary<short, Mob>();
 
     ConcurrentQueue<MoveData> movedatalist = new ConcurrentQueue<MoveData>();
+    ConcurrentQueue<short> mRemoveUserList = new ConcurrentQueue<short>();
 
     // Start is called before the first frame update
     void Start()
@@ -81,19 +72,39 @@ public class MouseMove : MonoBehaviour
     }
 
 
+    public void LeaveUser(short userid)
+    {
+        mRemoveUserList.Enqueue(userid);
+    }
+
+
+    private void _MoveDataProcess()
+    {
+        if (false == movedatalist.TryDequeue(out var msg))
+            return;
+
+        Debug.Log("Dequeue");
+        Cast(msg.userid, msg.x, msg.y, msg.z, msg.r);
+    }
+
+
+    private void _RemoveClientsProcess()
+    {
+        if (false == mRemoveUserList.TryDequeue(out var idx))
+            return;
+
+        if (false == mapChar.ContainsKey(idx))
+            return;
+
+        Destroy(mapChar[idx].gameObject);
+        mapChar.Remove(idx);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (movedatalist.TryDequeue(out var msg))
-        {
-            Debug.Log("Dequeue");
-            short userid = msg.userid;
-            float x = msg.x;
-            float y = msg.y;
-            float z = msg.z;
-            float r = msg.r;
-            Cast(userid, x, y, z, r);
-        }
+        _MoveDataProcess();
+        _RemoveClientsProcess();
 
         if (Input.GetMouseButtonDown(0))
         {

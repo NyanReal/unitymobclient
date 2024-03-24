@@ -136,10 +136,10 @@ public partial class ClientNetwork : MonoBehaviour
             }
         }
 
-////#if DEBUG
-//        mLastServerKey = "127.0.0.1";
-//        mServerList.Add("127.0.0.1", new IPEndPoint(IPAddress.Parse("127.0.0.1"), CommonData.SERVER_PORT));
-////#endif
+        //#if DEBUG
+        mLastServerKey = "127.0.0.1";
+        mServerList.Add("127.0.0.1", new IPEndPoint(IPAddress.Parse("127.0.0.1"), CommonData.SERVER_PORT));
+        //#endif
 
         return true;
     }
